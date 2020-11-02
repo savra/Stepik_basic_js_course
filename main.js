@@ -1,5 +1,9 @@
 function setup() {
     createCanvas(800, 500);
+
+    for (let i = 0; i < count; i++) {
+        coordinatesY[i] = randomInteger(30, 400);
+    }
 }
 
 let x = 0;
@@ -7,22 +11,21 @@ let y = 100;
 let gravity = 0.1;
 let yV = 0;
 
-
 let height = 70;
 let count = 10;
 
 let coordinatesY = [];
-
-for (let i = 0; i < count; i++) {
-    coordinatesY[i] = randomInteger(30, 400);
-}
+let coordinatesX = [0];
 
 function draw() {
     background(200, 200, 200);
     drawBird();
+    if (x % 100 === 0) {
+        coordinatesX.push(x - 100 * coordinatesX.length);
+    }
 
-    for (let i = 0; i < count; i++) {
-        drawRect(x - i * 100, coordinatesY[i]);
+    for (let i = 0; i < coordinatesX.length; i++) {
+        drawRect(coordinatesX[i], coordinatesY[i]);
     }
 }
 
@@ -44,6 +47,10 @@ function drawBird() {
     ellipse(400, y, 10 * 2);
 
     x += 1;
+
+    for (let i = 0; i < coordinatesX.length; i++) {
+        coordinatesX[i] += 1;
+    }
 
     if (yV < 0) {
         yV += gravity * 10;
